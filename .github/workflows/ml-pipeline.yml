@@ -28,6 +28,8 @@ jobs:
         run: uv sync --dev
 
       - name: Validate data and train/evaluate
+        env:
+          TRAIN_SUBSET_FRAC: "0.05"
         run: uv run python train_evaluate.py
 
       - name: Run application tests
