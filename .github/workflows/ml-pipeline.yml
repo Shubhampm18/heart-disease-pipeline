@@ -25,13 +25,13 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: uv sync --dev --system
+        run: uv sync --dev
 
       - name: Validate data and train/evaluate
-        run: uv run --system python train_evaluate.py
+        run: uv run python train_evaluate.py
 
       - name: Run application tests
-        run: uv run --system pytest -q tests/
+        run: uv run pytest -q tests/
 
       - name: Publish model package
         uses: actions/upload-artifact@v4
