@@ -1,0 +1,28 @@
+{
+  "metric": "f1",
+  "baseline_name": "DummyClassifier(strategy='most_frequent')",
+  "model_name": "RandomForestClassifier(n_estimators=200)",
+  "baseline_score": 0.6787,
+  "model_score": 1.0,
+  "margin": 0.1,
+  "gate_expression": "model_score >= baseline_score + margin",
+  "gate_pass": true,
+  "n_train": 768,
+  "n_val": 257,
+  "features": [
+    "age",
+    "sex",
+    "cp",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalach",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal"
+  ],
+  "target": "target"
+}

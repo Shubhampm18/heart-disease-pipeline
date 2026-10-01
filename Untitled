@@ -1,0 +1,24 @@
+# Lab 4: Automating an ML Pipeline with GitHub Actions
+
+## Dataset and task
+
+- **Source:** UCI Heart Disease (Cleveland) — cleaned CSV `heart_cleaned.csv`
+- **Target variable:** `target` (0 = no disease, 1 = disease present)
+- **Input features:** age, sex, cp, trestbps, chol, fbs, restecg,
+  thalach, exang, oldpeak, slope, ca, thal
+- **Prediction task:** Binary classification (heart disease present or absent)
+- **Baseline:** DummyClassifier(strategy="most_frequent")
+- **Candidate model:** RandomForestClassifier(n_estimators=200)
+- **Split:** Stratified 75/25 train/validation split, random_state=42
+- **Metric:** F1 score (positive class = disease present)
+- **Margin:** 0.10 F1
+- **Gate:** model_f1 >= baseline_f1 + 0.10
+
+## Setup
+
+Requires Python and [uv](https://docs.astral.sh/uv/).
+
+```bash
+uv sync --dev
+uv run python train_evaluate.py
+uv run pytest -q tests/

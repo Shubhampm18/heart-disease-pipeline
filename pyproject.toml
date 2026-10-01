@@ -1,0 +1,31 @@
+[project]
+name = "heart-disease-pipeline"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Shubhampm18", email = "shubhampmalik4@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "joblib>=1.6.0",
+    "numpy>=2.5.3",
+    "pandas>=3.0.6",
+    "scikit-learn>=1.9.1",
+]
+
+[project.scripts]
+heart-disease-pipeline = "heart_disease_pipeline:main"
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

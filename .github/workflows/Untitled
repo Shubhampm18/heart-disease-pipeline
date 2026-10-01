@@ -1,0 +1,2 @@
+uv run python train_evaluate.py
+uv run pytest -q tests/
