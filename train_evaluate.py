@@ -96,13 +96,20 @@ baseline = Pipeline([
     ("clf", DummyClassifier(strategy="most_frequent")),
 ])
 
-model = Pipeline([
-    ("prep", make_preprocessor()),
-    ("clf", RandomForestClassifier(
+if os.getenv("WEAK_MODEL", "0") == "1":
+    candidate_clf = DummyClassifier(strategy="uniform", random_state=RANDOM_STATE)
+    model_name = "DummyClassifier(strategy='uniform') [WEAK]"
+else:
+    candidate_clf = RandomForestClassifier(
         n_estimators=200,
         random_state=RANDOM_STATE,
         n_jobs=-1,
-    )),
+    )
+    model_name = "RandomForestClassifier(n_estimators=200)"
+
+model = Pipeline([
+    ("prep", make_preprocessor()),
+    ("clf", candidate_clf),
 ])
 
 baseline.fit(X_train, y_train)
@@ -115,7 +122,7 @@ gate_pass = model_f1 >= baseline_f1 + MARGIN
 metrics = {
     "metric": "f1",
     "baseline_name": "DummyClassifier(strategy='most_frequent')",
-    "model_name": "RandomForestClassifier(n_estimators=200)",
+    "model_name": model_name,
     "baseline_score": round(float(baseline_f1), 4),
     "model_score": round(float(model_f1), 4),
     "margin": MARGIN,

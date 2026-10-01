@@ -30,6 +30,7 @@ jobs:
       - name: Validate data and train/evaluate
         env:
           TRAIN_SUBSET_FRAC: "0.05"
+          WEAK_MODEL: "1"
         run: uv run python train_evaluate.py
 
       - name: Run application tests
