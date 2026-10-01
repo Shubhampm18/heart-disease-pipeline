@@ -1,0 +1,47 @@
+name: ML Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  train-test-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --dev --system
+
+      - name: Validate data and train/evaluate
+        run: uv run --system python train_evaluate.py
+
+      - name: Run application tests
+        run: uv run --system pytest -q tests/
+
+      - name: Publish model package
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-package-${{ github.run_number }}-${{ github.sha }}
+          path: |
+            artifacts/model.joblib
+            artifacts/metrics.json
+            predict.py
+            pyproject.toml
+            README.md
+            heart_cleaned.csv
+          if-no-files-found: error
